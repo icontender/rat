@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" 
+	xmlns:ak33m="http://ak33m.com/mxml" 
+	xmlns:lmc="com.lmc.components.*"
+	xmlns:lmcutils="com.lmc.qa.utils.*"
+	layout="absolute" creationComplete="init()" width="100%" height="100%"  backgroundColor="#6D90C6">
+	
+	
+   
+   <mx:Script>
+       <![CDATA[
+        import com.lmc.utils.ratXMLRPCObject;
+       	import mx.controls.ComboBox;
+       	  import mx.controls.Alert;
+           import com.lmc.utils.*;
+           import com.lmc.components.*;
+           import com.lmc.events.*;
+           import mx.controls.*;
+           import mx.collections.ArrayCollection;
+           
+           // Assign the task runner tasks to this array, update
+           
+           [Bindable] private var taskhistory:ArrayCollection;
+      	   [Bindable] public var ratweb:ratXMLRPCObject = new ratXMLRPCObject();
+           
+           
+           private function init(): void {
+              // Need to add listener for reservation event
+              
+             
+              //this.testplan.setService(ratweb);
+             // this.dynasystems.setService(ratweb); 
+             
+           }
+          
+           private function getinfo():void{
+           		ratweb.getslots();
+           	
+           }
+              
+       ]]>
+       
+   </mx:Script>
+
+   
+   	
+   
+	<mx:TabNavigator id="tabnav" x="0" y="23" width="100%" height="90%" borderStyle="inset">
+		
+		<lmc:SystemsDataGrid id="dynasystems" label="Reservations" 
+			width="100%" height="100%" click="tabnav.validateNow();"  backgroundColor="#FFFFFF"/>
+		
+		
+		<lmc:reportmodel label="Reports" width="100%" height="100%" 
+			enabled="true" dataProvider="{ratweb}" click="tabnav.validateNow();"  backgroundColor="#FFFFFF"/>
+			
+		
+		
+	</mx:TabNavigator>
+   
+
+</mx:Application>
