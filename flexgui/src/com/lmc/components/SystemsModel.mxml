@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:lmc="com.lmc.components.*" 
+	width="100%" height="90%" creationComplete="init()" >
+
+	  
+	  
+	  <mx:Script>
+	  	<![CDATA[
+	  		 import mx.events.PropertyChangeEvent;
+	  		 import com.lmc.utils.ratXMLRPCObject;
+       		 import mx.core.IFlexDisplayObject;
+             import mx.controls.ComboBox;
+        	 import mx.core.Application;
+             import mx.controls.CheckBox;
+       	     import mx.collections.ArrayCollection;
+             import mx.events.FlexEvent;
+             import mx.events.ListEvent;
+             import com.lmc.events.*;
+             import mx.managers.PopUpManager;
+             import mx.controls.Alert;
+             import com.lmc.utils.*;
+             import com.lmc.components.*;
+             import com.lmc.events.*;
+             import mx.controls.*;
+             import flash.events.*;
+         
+             import mx.collections.ArrayCollection;
+             import mx.utils.ArrayUtil;
+             
+             
+           [Bindable] private var ratweb:ratXMLRPCObject;
+          
+           
+           public function init():void{
+           	  ratweb = this.parentApplication.ratweb;
+           	  
+
+           	  
+             
+              this.addEventListener(AssignOSEvent.ASSIGNOS, assignProfileHandler);
+              ratweb.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
+              
+           }
+           private function detectChange(evt:PropertyChangeEvent):void{
+           		// need to make sure the search field is not blank
+           		if (this.filterTxt.text != ""){
+           			this.filtercontent();
+           		}
+           }
+           
+           public function setService(server:ratXMLRPCObject):void{
+           		ratweb = server;
+           	
+           }
+           
+           
+            
+         
+          
+           private function assignProfileHandler(e:AssignOSEvent):void{
+           		var ospanel:Object;
+           		ospanel = PopUpManager.createPopUp(this,AssignOSPanel, true);
+           		ospanel.macaddr = e.macaddr;
+           		ospanel.setService(ratweb);
+           		ospanel.systemname = e.systemname;	
+           		
+           		ospanel.user = e.user;
+           		PopUpManager.centerPopUp(ospanel as IFlexDisplayObject); 
+           		
+           }
+           
+           private function doubleClickHandler(event:ListEvent):void {
+				mx.controls.Alert.show("Column1 is: " + event.itemRenderer.data.name);
+			}
+		   private function gridInit(event:FlexEvent):void {
+				event.currentTarget.itemRenderer.properties = {doubleClickEnabled:true};
+			}
+			private function filterColumn(item:Object):Boolean
+			{
+				var content:String = filterTxt.text
+				// If we concatenate all the fields we want to search we can search them all at once
+				var key:String = item.name + " " + item.arch + " " + item.instance + " " + item.user;
+				
+				// maybe convert all strings to lowercase first
+				key = key.toLowerCase();
+				content = content.toLowerCase();
+				
+				
+				if(key.indexOf(content) != -1) 
+					return true;
+				
+				else
+					return false;
+			}
+	
+			///if the textbox is empty, it then calls back all of the data. I actually use a 'reset' button to do this as well.
+
+			private function filtercontent():void
+			{
+				if (filterTxt.text.length == 0)
+				{
+					ratweb.systemData.filterFunction = null
+				}
+				else
+				{
+					ratweb.systemData.filterFunction = filterColumn;
+				}
+				ratweb.systemData.refresh()
+			}
+			
+			// Todo:
+			// 1. create a watcher so when a reload occurs the cursor doesn't lose its place
+			// 2. Sort automatically on creation or reload
+			// 3. Create checkbox in first column
+			
+	  	]]>
+	  </mx:Script>
+	         <mx:Label x="15" y="5" text="Search" width="86" fontSize="12" fontWeight="bold"/>
+			<mx:TextInput id="filterTxt" width="238" toolTip="Search by Name"  x="76" y="3" change="filtercontent()" text=""/>
+			
+			 <mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml"
+			 	width="95%" height="95%" dataProvider="{ratweb.systemData}" liveScrolling="true" mouseEnabled="true"
+	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);"
+	  			horizontalGridLines="true" creationComplete="init()" x="14.5" y="30" id="maingrid">
+			 
+			  <mx:columns>
+			   <!--  <mx:DataGridColumn headerText="" width="25" textAlign="center" sortDescending="true"
+			     	>
+			     	<mx:itemRenderer>
+			     		<mx:Component>
+			     			<mx:CheckBox />
+			     				</mx:Component>
+			     	</mx:itemRenderer>	
+			     
+			     </mx:DataGridColumn> -->
+			     <mx:DataGridColumn headerText="Name" dataField="name" width="130" textAlign="left"/>
+			    
+			     <mx:DataGridColumn headerText="Type" dataField="chassistype" textAlign="left" width="70"/>
+			     <mx:DataGridColumn headerText="MAC" dataField="macaddr" textAlign="center" width="130"/>
+			     <mx:DataGridColumn headerText="Installed OS" dataField="instance" width="120" textAlign="left" />
+			  
+			  <mx:DataGridColumn headerText="User" textAlign="left" width="100" dataField="user" />
+			  <mx:DataGridColumn headerText="arch" textAlign="left" width="100" dataField="arch" />
+			  <mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
+			  <mx:DataGridColumn headerText="Assign New OS" width="120"  textAlign="center" 
+			  	itemRenderer="com.lmc.components.AssignButton" />
+			  
+			  </mx:columns>
+			
+</mx:DataGrid>
+			 
+			
+</mx:Canvas>
