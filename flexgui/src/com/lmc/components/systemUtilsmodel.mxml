@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%">
+	<mx:TitleWindow x="26" y="22" width="348" height="304" layout="absolute" title="Add System to Testmws1">
+				<mx:Form x="0" y="0" width="318" height="203">
+					<mx:FormItem label="System Name" required="true">
+						<mx:TextInput/>
+					</mx:FormItem>
+					<mx:FormItem label="Mac Address" required="true">
+						<mx:TextInput/>
+					</mx:FormItem>
+					<mx:FormItem label="Management IP">
+						<mx:TextInput/>
+					</mx:FormItem>
+					<mx:FormItem label="Switch name/port">
+						<mx:TextInput/>
+					</mx:FormItem>
+					<mx:FormItem label="Powerport">
+						<mx:TextInput/>
+					</mx:FormItem>
+					<mx:FormItem label="Architecture" required="true">
+						<mx:ComboBox><mx:ArrayCollection>
+							<mx:String>i686</mx:String>
+							<mx:String>parisc</mx:String>
+							<mx:String>sparc</mx:String>
+							
+						</mx:ArrayCollection></mx:ComboBox>
+					</mx:FormItem>
+				</mx:Form>
+				<mx:Button label="Add System" width="98" x="89" y="211"/>
+			</mx:TitleWindow>
+			<mx:TitleWindow x="382" y="22" width="348" height="304" layout="absolute" title="Create Virtual System">
+				<mx:Form x="10" y="10" width="292" height="118">
+					<mx:FormItem label="System Name" required="true">
+						<mx:TextInput/>
+					</mx:FormItem>
+					<mx:FormItem label="ESX Server" required="true">
+						<mx:ComboBox>
+						<mx:ArrayCollection>
+							<mx:String>esx1.svc</mx:String>
+							<mx:String>esx1.qa</mx:String>
+							<mx:String>esx1.dev</mx:String>
+							<mx:String>esx2.dev</mx:String>
+						</mx:ArrayCollection>
+						</mx:ComboBox>
+					</mx:FormItem>
+				</mx:Form>
+				<mx:Button label="Add VM" width="98" x="115" y="212"/>
+			</mx:TitleWindow>
+</mx:Canvas>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:racemi="com.racemi.qa.components.*" width="956" height="488" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import com.racemi.qa.components.*;
+			import com.racemi.qa.events.*;
+			import com.racemi.qa.utils.*;
+			
+			
+			[Bindable] private var dynaweb:dynaXMLRPCObject;
+			
+			private function init():void{
+				this.addEventListener(addTestItemEvent.ADDTESTITEM,addtestHandler);
+				dynaweb = this.parentApplication.dynaweb;
+				testitems.setService(dynaweb);
+			}
+			public function setService(server:dynaXMLRPCObject):void{
+           		dynaweb = server;
+           		
+           		
+           }
+			private function addtestHandler(e:addTestItemEvent):void{
+				testplan.addTest(e.command, e.os, e.system, e.version, e.itemname);
+				
+			}
+		]]>
+	</mx:Script>
+	
+	
+	<racemi:addTestItem x="10" y="10" height="176" width="918" id="testitems"/>
+		<racemi:addTestPlan width="918" height="231"  x="10" y="196" id="testplan" />
+		<mx:CheckBox x="10" y="435" label="Save Test Plan"/>
+		<mx:TextInput x="138" y="435" width="247"/>
+		<mx:Button x="535" y="435" label="Run Test Plan" width="132"/>
+			
+		
+	
+</mx:Canvas>

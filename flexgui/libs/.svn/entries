@@ -1,0 +1,16 @@
+8
+
+dir
+225
+svn+ssh://cosman@svn/svn/Services/Tools/ratt/branches/0012/rattgui/libs
+svn+ssh://cosman@svn/svn/Services
+
+
+
+2009-03-23T21:28:13.879354Z
+225
+cosman
+
+
+svn:special svn:externals svn:needs-lock
+

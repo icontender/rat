@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="578" height="288" 
+	title="Reservation Details (system name )" alpha="1.0" cornerRadius="11" backgroundColor="#FAF7F7" 
+	showCloseButton="true" xmlns:ak33m="http://ak33m.com/mxml" close="close()" creationComplete="init()">
+	
+	
+   <mx:Script>
+       <![CDATA[
+       	import com.racemi.qa.events.*;
+       	import mx.controls.ComboBox;
+       	import mx.collections.ArrayCollection;
+           import mx.rpc.events.ResultEvent;
+           import mx.rpc.events.FaultEvent;
+           import mx.rpc.AsyncToken;
+           import mx.controls.Alert;
+           import com.racemi.qa.components.*;
+           import com.racemi.qa.utils.*;
+          import mx.managers.PopUpManager;
+           import mx.collections.ItemResponder;
+           import mx.collections.ArrayCollection;
+           import mx.utils.ArrayUtil;
+          
+        
+        
+           [Bindable] private var dynaweb:dynaXMLRPCObject;
+           
+           public var slotid:String;
+           public var slotname:String;
+           
+           public var instance:String;
+           private var result:String;
+           private var description:String;
+           
+           public function setName(name:String):void{
+           	   this.title = "Current Reservation Details for " + name;
+           	   this.slotname = name;
+           }
+           public function setService(server:dynaXMLRPCObject):void{
+           		dynaweb = server;
+           		
+           }
+            public function setSlotid(slot:String, desc:String):void{
+           	   this.slotid = slot;
+           	   // Fetch the data from the server
+           	   dynaweb.gettemplates(slot);
+           	   parseDescription(desc);
+           	  // reason_txt.text = description;
+           	  
+           }
+           public function set templateindex(index:int):void{
+           		// Set the currently selected template
+           		templatebox.selectedIndex = index;
+           		
+           		        		
+           }
+           
+           private function parseDescription(desc:String):void{
+           		// Incoming string is delimited by a newline
+           		// Each part is delimited by a ':'
+           		var reason:String = "";
+           		var start:String = "";
+           		var end:String = "";
+           		var user:String = "";
+           		var items:Array;
+           		var temp:Array;
+           		var temp2:String;
+           		var index:int;
+           		
+           		
+           		items = desc.split("\n");
+           		if (items.length == 4){
+	           		for (var i:String in items){
+	           			temp = items[i].split(":");
+	           			switch (temp[0]){
+	           				case "user":
+	           					user = temp[1];
+	           					// find the index of the user, break out of loop once we find the user
+	           					for (var k:int; k < dynaweb.userData.length; k++){
+	           						temp2 = dynaweb.userData[k] as String;
+	           						temp2 = temp2.toLowerCase();
+	           						index = temp2.search(user.toLowerCase());
+	           						if (index != -1){
+	       	        	           		userbox.selectedIndex = k;
+	        	           				break;
+	           						}
+	           						
+	           					}
+	           					// set the combox of the found user
+	           					
+	           					if (index == -1){
+	           						reason_txt.text += reason;
+	           					}
+	           					break;
+	           				case "reason":
+	           					reason = temp[1];
+	           					reason_txt.text += reason;
+	           					break;
+	           				case "start":
+	           					start = temp[1];
+	           					start_date.text = start;
+	           					break;
+	           				case "end":
+	           					end = temp[1];
+	           					end_date.text = end;
+	           					break;
+	           			}
+	           				           					
+	           		}
+	           		
+           		}
+           		else{
+           			reason_txt.text = desc;
+           		}
+           		
+           }
+           private function init(): void {
+           	 
+              assignedinstance.text = instance;
+           }
+         
+           
+           
+           // function to close the window
+           private function close():void{
+           	   PopUpManager.removePopUp(this);
+           }
+             private function checkvalues():Boolean{
+               var user:String = userbox.selectedLabel;
+           	   var reasontxt:String = reason_txt.text;
+           	  var start:String = start_date.text;
+           	   var end:String = end_date.text;
+           	   
+           	   if (start == null){
+           	   		Alert.show("You must pick a start date");
+           	   		return false;
+           	   }
+           	   if (end == null){
+           	   	    Alert.show("You must pick a end date");
+           	   	    return false;
+           	   }
+           	   return true;
+           }
+           private function makeReservation():void{
+           	   var user:String = userbox.selectedLabel;
+           	   var reasontxt:String = reason_txt.text;
+           	   var start:String = start_date.text;
+           	   var end:String = end_date.text;
+           	   if (! checkvalues()){
+           	   		return;
+           	   }
+           	   var reason:String = new String();
+           	   reason = "user:" + user + "\nreason:" + reasontxt + "\nstart:"  + start + "\nend:" + end ;
+           	   
+           	   
+           	   // Need to check to see if everything went according to plan behind the scenes
+           	   // should create a new function, capture the event and then dispatch the event below
+           	   // this dispatch brings up the confirmationdialog
+           	   this.dispatchEvent(new ReservationSent(slotid, slotname, templatebox.selectedLabel));
+           	   
+           	   dynaweb.assignslot(ArrayUtil.toArray(slotid), templatebox.selectedLabel, reason);
+           	 //  
+           	   close();
+           }   
+           private function releaseReservation():void{
+           	   // Need to check to see if everything went according to plan behind the scenes
+           	   // should create a new function, capture the event and then dispatch the event below
+           	   var result:String;
+           	   this.dispatchEvent(new ReservationSent(slotid, slotname, templatebox.selectedLabel));
+           	  dynaweb.releaseslot(slotid);
+           	 
+           	   
+           	   close();
+           }           
+       ]]>
+   </mx:Script>
+	
+	
+	
+	<mx:ComboBox x="165" y="10" id="userbox" dataProvider="{dynaweb.userData}"  width="160"/>
+	<mx:Label x="27" y="10" text="Name" width="108" fontAntiAliasType="normal" fontSize="12" fontThickness="3" fontWeight="bold"/>
+	<mx:Label x="27" y="133" text="Start Date" fontAntiAliasType="normal" fontSize="12" fontThickness="3" fontWeight="bold"/>
+	<mx:Label x="27" y="39" text="Reason" fontAntiAliasType="normal" fontSize="12" fontThickness="3" fontWeight="bold"/>
+	
+	<mx:Label x="266" y="133" text="End Date" fontAntiAliasType="normal" fontSize="12" fontThickness="3" fontWeight="bold"/>
+
+	<mx:TextInput x="165" y="39" width="352" id="reason_txt"/>
+	<mx:Button x="49" y="193" label="Release Reservation" width="201" click="releaseReservation()"/>
+	<mx:Button x="266" y="193" label="Reassign Reservation" width="201" click="makeReservation()"/>
+	<mx:ComboBox x="165" y="96" id="templatebox" dataProvider="{dynaweb.templateData}" width="242"></mx:ComboBox>
+	<mx:Label x="27" y="98" text="Template" fontAntiAliasType="normal" fontSize="12" fontWeight="bold" />
+	<mx:Label x="27" y="67" text="Assigned Instance" fontAntiAliasType="normal" fontSize="12" fontWeight="bold" />
+	<mx:TextInput x="165" y="67" id="assignedinstance"  width="242"/>
+	<mx:DateField x="117" y="133" editable="true" width="100" formatString="MM/DD/YY" id="start_date"/>
+	<mx:DateField x="338" y="133" editable="true" width="100" formatString="MM/DD/YY" id="end_date"/>
+	
+</mx:TitleWindow>

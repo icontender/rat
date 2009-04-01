@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="578" height="450" 
+	title="Assign New Operating System" alpha="1.0" 
+	cornerRadius="11" backgroundColor="#FAF7F7" 
+	showCloseButton="true" 
+	
+	xmlns:racemi="com.racemi.qa.components.*"
+	close="close()" creationComplete="init()">
+	
+	
+	<mx:Script>
+		<![CDATA[
+			import mx.events.CloseEvent;
+			import com.racemi.qa.components.*;
+			import mx.managers.PopUpManager;
+			
+			import mx.core.IFlexDisplayObject;
+       	   import mx.controls.ComboBox;
+       	   import mx.collections.ArrayCollection;
+          
+           import mx.controls.Alert;
+           import com.racemi.qa.utils.*;
+           import com.racemi.qa.components.*;
+           import com.racemi.qa.events.*;
+           
+           import mx.utils.ArrayUtil;
+			
+		   [Bindable] private var dynaweb:dynaXMLRPCObject;
+		   public var macaddr:String;
+		   public var slotname:String;
+		   public var slotid:String;
+		   private var selectedprofile:String;
+		   public var user:String;
+		   
+		   private function init():void{
+		   	this.title = "Assign New Operating System for " + slotname;
+		   	 
+		   	 
+             this.slotid_txt.text = slotid;
+             this.sysname_txt.text = slotname;
+             this.macaddr_txt.text = macaddr;
+		   }
+		   public function setService(server:dynaXMLRPCObject):void{
+           		dynaweb = server;
+           		dynaweb.getprofiles();
+           		
+           		
+           }
+			// function to close the window
+           private function close():void{
+           	   PopUpManager.removePopUp(this);
+           }
+		
+            private function alertCloseHandler(event:CloseEvent):void{
+            	var selected:Object;
+           		if (event.detail==Alert.YES){
+           			selected = profilelist.getSelectedItems();
+           			dynaweb.addsystem(slotname,macaddr, selected, user, chk_reset.selected.toString(), this.slotid);
+           		    this.dispatchEvent(new AssignOSEvent(this.slotname, this.macaddr, this.slotid, selected['distro']));
+           			this.close();
+           		}
+           		
+           }     
+           private function onInstallClick():void{
+           	// lets make sure the user picked something
+           	if (! profilelist.doCheck()){
+           		Alert.show("Please select an OS and Template")
+           		return;
+           	}
+            var txt:String = "Are you sure you want to install " + profilelist.selectedItem + " on " + slotname + "?";
+          	Alert.show(txt,"OS Install Confirmation",Alert.NO|Alert.YES,this,alertCloseHandler);
+            
+           }
+            //To do:
+            // 1. add option to disable boot pxe    
+		]]>
+	</mx:Script>
+	<mx:Button x="201" y="369" label="Install OS" width="105" click="this.onInstallClick()"/>
+	<mx:Label x="184.5" y="157" text="Choose OS to install" width="148" fontSize="12" fontWeight="bold"/>
+	<mx:Label x="10" y="31" text="System Name" width="128" fontSize="12" fontWeight="bold"/>
+	<mx:Label x="10" y="61" text="Slot ID" width="128" fontSize="12" fontWeight="bold"/>
+	<mx:Label x="10" y="93" text="Blade MAC" width="128" fontSize="12" fontWeight="bold"/>
+	<mx:TextInput x="146" y="31" width="273"/>
+	<mx:TextInput x="146" y="93" width="273" id="macaddr_txt"/>
+	<mx:TextInput x="146" y="61" width="273" id="slotid_txt"/>
+	<mx:TextInput x="146" y="31" width="273" id="sysname_txt"/>
+	<racemi:osChooser x="30" y="186" id="profilelist" dataProvider="{dynaweb}"/>
+	
+	<mx:CheckBox x="146" y="123" id="chk_reset" label="Reset System"/>
+	
+	
+	
+	
+	
+</mx:TitleWindow>

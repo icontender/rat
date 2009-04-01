@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" 
+	xmlns:racemi="com.racemi.qa.components.*" creationComplete="init()">
+	<mx:Script>
+		<![CDATA[
+			import mx.events.DynamicEvent;
+			import com.racemi.qa.utils.*;
+             import com.racemi.qa.components.*;
+             import com.racemi.qa.events.*;
+             import mx.collections.ArrayCollection;
+             [Bindable] private var dynaweb:dynaXMLRPCObject;
+             [Bindable] private var statarray:Array = new Array("Daily", "Weekly", "Monthly", "Yearly");
+       
+            public function init():void{
+            	dynaweb.getstatistics(this.charttype.selectedLabel.toLocaleLowerCase());
+            }
+            public function set dataProvider(data:dynaXMLRPCObject):void {
+            	this.dynaweb = data;
+            }
+            public function set chartname(name:String):void{
+            	chartpanel.title = name;
+            }
+            private function changechart():void{
+            	dynaweb.getstatistics(this.charttype.selectedLabel.toLowerCase());
+            	this.chartname = this.charttype.selectedLabel + " OS Provision Results";
+            }
+		]]>
+	</mx:Script>
+	<mx:VBox width="80%" height="75%" horizontalAlign="center" verticalAlign="middle">
+		<mx:HBox horizontalAlign="center" verticalAlign="top" width="100%">
+		
+			<mx:Label  text="Report Type" width="99" fontStyle="normal" fontSize="12" fontWeight="bold"/>
+			<mx:ComboBox id="charttype" dataProvider="{statarray}" change="changechart();" 
+			 width="100"  />
+		</mx:HBox>
+		<mx:Panel horizontalAlign="center" verticalAlign="top" y="60" title="Daily OS Provision Results" 
+		id="chartpanel" width="100%" height="75%" layout="absolute" x="71.5">
+	
+			<racemi:osreportview id="oschart" height="85%" width="100%" dataProvider="{dynaweb.stats}"/>
+			</mx:Panel>
+			<mx:HBox height="10%" horizontalAlign="center" verticalAlign="bottom" width="70%">
+				<mx:Legend dataProvider="{oschart}" horizontalAlign="center" verticalAlign="bottom"
+					 height="100%" width="100%" />
+			</mx:HBox>
+	
+	</mx:VBox>
+	
+	
+	
+	
+</mx:Canvas>

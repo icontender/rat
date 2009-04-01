@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="590" 
+	height="468" title="Command Details" creationComplete="init()" cornerRadius="11" 
+	backgroundColor="#FAF7F7" 
+	showCloseButton="true" close="close()">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.ComboBox;
+			import mx.controls.TextInput;
+			import mx.containers.FormItem;
+			import mx.automation.delegates.containers.FormItemAutomationImpl;
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			
+			
+			public var slotid:String = new String();
+			public function init():void{
+				
+			}
+			public function addCmdItem(name:String, type:String="text"):void{
+				var item:FormItem = new FormItem();
+				switch(type){
+					case "text":
+					    item.addChild(new TextInput);
+					    break;
+					case "combo":
+					    item.addChild(new ComboBox);
+					    break;
+					    
+				}
+				
+				item.label = name;
+				if (item.label == "--slotid")
+					//item.data = slotid;
+				
+				item.id = name;
+				item.required = true;
+				commandform.addChild(item);
+			}
+		   private function getSyntax():String{
+		   		var items:Array = this.getChildren();
+		   		var syntax:String = new String();
+		   		var item:FormItem;
+		   		var itemname:String;
+		   		var itemvalue:String;
+		   		for (var i:int=0; i < items.length; i++){
+		   			item = items[i];
+		   			itemname = item.name;
+		   			
+		   		}
+		   		return syntax;
+		   }
+		   
+			// function to close the window
+           private function close():void{
+           	   PopUpManager.removePopUp(this);
+           }
+           private function buttonHandler():void{
+           	   
+           	   close();
+           }
+           
+		]]>
+	</mx:Script>
+	<mx:Form id="commandform" autoLayout="true" width="570" height="378">
+	
+	</mx:Form>
+	<mx:Button x="162" y="396" label="OK" width="104" click="buttonHandler()"/>
+	<mx:Button x="305" y="396" label="Cancel" width="104" click="close()"/>
+	
+</mx:TitleWindow>

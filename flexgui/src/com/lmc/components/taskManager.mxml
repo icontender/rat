@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+	<mx:TabNavigator x="0" y="0" width="100%" height="100%" xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()">
+		<mx:Script>
+			<![CDATA[
+				import mx.messaging.AbstractConsumer;
+				import mx.controls.ProgressBar;
+				import mx.collections.ArrayCollection;
+				import com.racemi.qa.events.*;
+				
+				
+				[Bindable] private var tasklog:ArrayCollection = new ArrayCollection();
+				public function init():void{
+					this.addEventListener(ReservationCreated.CREATED, taskHandler);
+					this.addEventListener(AssignOSEvent.ASSIGNOS, osHandler);
+				}
+				public function addtask(task:String):void{
+					
+					var time:Date = new Date();
+					tasklog.addItem({Date: time.toString(), Task: task, Status: "completed"})
+				}
+				private function taskHandler(e:ReservationCreated):void{
+				//	addtask(e.slotname + " was Reserved");
+				}
+				private function osHandler(e:AssignOSEvent):void{
+					addtask(e.profile + "is being installed on " + e.slotname);
+				}
+				
+				
+			]]>
+		</mx:Script>
+		
+		
+		<mx:Canvas label="Tasks" width="100%" height="100%">
+			<mx:DataGrid height="100%" width="100%" dataProvider="{tasklog}">
+				<mx:columns>
+				    <mx:DataGridColumn headerText="Date" dataField="Date" />
+					<mx:DataGridColumn headerText="Task" width="400" dataField="Task"/>
+					<mx:DataGridColumn headerText="Status"  >
+					<mx:itemRenderer>
+						<mx:Component>
+							<mx:ProgressBar >
+								
+							</mx:ProgressBar>
+						</mx:Component>
+					</mx:itemRenderer>
+					</mx:DataGridColumn>
+					<mx:DataGridColumn headerText="User"  width="100" />
+				</mx:columns>
+			</mx:DataGrid>
+			
+		</mx:Canvas>
+		<mx:Canvas label="Errors" width="100%" height="100%">
+		</mx:Canvas>
+	</mx:TabNavigator>
+
