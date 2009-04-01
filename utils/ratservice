@@ -1,0 +1,84 @@
+#! /bin/sh
+#
+# $Id: dhmd.rc 9992 2003-07-18 19:22:03Z cosman $
+#
+# chkconfig: - 345 86 10
+# description: ratd is a webserverice that
+#              wraps commands from jumpstart and cobbler 
+#              
+# processname: ratd
+
+SERVER_FULL_NAME="Rat "
+SERVER_ABBREV="ratd.py"
+SERVER_PATH="/opt/lmc/rat/${SERVER_ABBREV}"
+
+# Source function library.
+. /etc/init.d/functions
+
+# Get config.
+. /etc/sysconfig/network
+
+# Check that networking is up.
+if [ ${NETWORKING} = "no" ]
+then
+	exit 0
+fi
+
+
+start() {
+	echo -n $"Starting $SERVER_FULL_NAME: "
+	daemon $SERVER_PATH &
+	RETVAL=$?
+	echo
+	[ $RETVAL -eq 0 ] && touch /var/lock/subsys/$SERVER_ABBREV
+	return $RETVAL
+}	
+
+stop() {
+	echo -n $"Stopping $SERVER_FULL_NAME: "
+        PID=`ps -eaf |grep ${SERVER_ABBREV} |grep python |awk '{print $2}'` 
+        kill $PID 2>/dev/null
+        RC=$?
+	base=$SERVER_ABBREV
+	[ $RC -eq 0 ] && success $"$base shutdown" || failure $"$base shutdown"
+
+	echo
+	[ $RC -eq 0 ] && rm -f /var/lock/subsys/$SERVER_ABBREV
+	return $RC
+}
+
+restart() {
+	stop
+	start
+}
+status(){
+    PID=`ps -eaf |grep ${SERVER_ABBREV} |grep python |awk '{print $2}'`
+    echo Running, PID = ${PID}
+}	
+
+# See how we were called.
+case "$1" in
+  start)
+  	start
+	;;
+  coverage)
+	coverage
+	;;
+  stop)
+  	stop
+	;;
+  restart|reload)
+  	stop
+	start
+	;;
+  status)
+	status
+	;;
+  *)
+	echo $"Usage: $SERVER_ABBREV {start|stop|status|restart}"
+	exit 1
+	;;
+esac
+
+exit $?
+

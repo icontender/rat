@@ -1,0 +1,7 @@
+[
+['dccmd capture server', '--slotid'],
+['dccmd deploy server', '--slotid', '--repo'], 
+['ridleserver', '--slotid'], 
+['rshowslot', '--slotid'] 
+]
+
