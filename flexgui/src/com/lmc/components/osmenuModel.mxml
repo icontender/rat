@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" height="100%" creationComplete="init()"
+	xmlns:lmc="com.lmc.components.*" >
+	<mx:Script>
+		<![CDATA[
+			import com.lmc.utils.ostree;
+		
+			
+		
+		    import mx.collections.ArrayCollection;
+		    import mx.events.ListEvent;
+		    import com.lmc.utils.*;
+		    import mx.controls.Alert;
+		    import mx.utils.ObjectUtil;
+		    import mx.events.PropertyChangeEvent;
+			[Bindable] private var datap:cobblerObject;
+			[Bindable] private var osmenutree:ostree = new ostree();
+			
+			public function set dataProvider(data:cobblerObject):void{
+				this.datap = data;
+				createtree();
+				
+			}
+			public function get selectedprofile():String{
+				return osmenu.selectedItem;
+			}
+			private function init():void{
+				datap.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
+				createtree();
+			}
+			private function detectChange(evt:PropertyChangeEvent):void{
+           		
+           		createtree();
+           		
+           		
+            }
+			// Create tree like structure in Arraycollection
+			// Pass to the view
+			private function createtree():void{
+				var breed:String; 
+				var distro:String; 
+				var arch:String;
+				var version:String; 
+				var profile:String; 
+				var comment:String;
+				for each (var p in this.datap.profileData){
+					distro = p.distro;
+					profile = p.name;
+					for each (var d in this.datap.distroData){
+						if (d.name == distro){
+							breed = d.breed;
+			 				arch = d.arch;
+			 				version = d.os_version;
+			 				comment = d.comment;
+						}
+						
+					}
+					this.osmenutree.addos({'breed':breed, 'distro':distro, 
+										'arch':arch, 'version':version, 
+										'profile':profile, 'comment':comment}
+									 );
+			 		
+			 	}
+				
+			
+			}
+				
+		]]>
+	</mx:Script>
+	<lmc:osmenuview id="osmenu" dataProvider="{this.osmenutree}" y="1"/> 
+</mx:Canvas>

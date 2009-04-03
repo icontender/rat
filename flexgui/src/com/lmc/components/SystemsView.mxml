@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml" >
+			 
+			  <mx:columns>
+			   
+			     <mx:DataGridColumn headerText="Name" dataField="name" width="130" textAlign="left"/>
+			    
+			     
+			     <mx:DataGridColumn headerText="MAC" dataField="interfaces.eth0.mac_address" textAlign="center" width="130"/>
+			     <mx:DataGridColumn headerText="Installed OS" dataField="instance" width="120" textAlign="left" />
+			  <mx:DataGridColumn headerText="Netboot" width="25" textAlign="center" sortDescending="true"
+			     	>
+			     	<mx:itemRenderer>
+			     		<mx:Component>
+			     			<mx:CheckBox />
+			     				</mx:Component>
+			     	</mx:itemRenderer>	
+			     
+			     </mx:DataGridColumn> 
+			  
+			  <mx:DataGridColumn headerText="arch" textAlign="left" width="100" dataField="mac_address_eth0" />
+			  <mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
+			  <mx:DataGridColumn headerText="Install OS" width="120"  textAlign="center" 
+			  	itemRenderer="com.lmc.components.AssignButton" />
+			  
+			  </mx:columns>
+			
+</mx:DataGrid>
+			 

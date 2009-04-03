@@ -3,13 +3,15 @@ package com.lmc.utils
 {
 	import com.ak33m.rpc.xmlrpc.XMLRPCObject;
 	import com.lmc.events.*;
+	
+	import flash.events.EventDispatcher;
+	
 	import mx.collections.*;
 	import mx.controls.Alert;
 	import mx.rpc.AsyncToken;
 	import mx.rpc.events.FaultEvent;
 	import mx.rpc.events.ResultEvent;
 	import mx.utils.ArrayUtil;
-	import flash.events.EventDispatcher;
 	
 	
 	[Bindable]
@@ -17,32 +19,58 @@ package com.lmc.utils
 	{
 		
 		 super;
-		 public var distroData:ArrayCollection = null;
-		 public var profiles:ArrayCollection = new ArrayCollection();
-		 public var userData:ArrayCollection = null;
-         public var systemData:ArrayCollection = null;
+		 public var distroData:ArrayCollection = new ArrayCollection();
+		 public var profileData:ArrayCollection = new ArrayCollection();
+		 public var userData:ArrayCollection = new ArrayCollection();
+         public var systemData:ArrayCollection = new ArrayCollection();
          private var systemname:String;
          private var macaddr:String;
          private var profile:String;
-         private var cobblerserver:String;
-         private var jumpstartserver:String;
          
+         private var jumpstartserver:String;
+         private var username:String;
+         private var password:String;
+         private var token:String;
          public var result:String;
          private var server:XMLRPCObject;
-		public function cobblerObject(endpoint:String="http://172.16.1.53:9000", dest:String="/"){
+         
+         // read only functions
+            //get_distros()
+			//get_profiles()
+			//get_systems()
+			//get_repos()
+			//get_distro(name)
+			//get_profile(name)
+			//get_repo(name)
+			//get_distro_for_koan(name)
+			//get_profile_for_koan(name)
+			//get_repo_for_koan(name)
+			//login(self, login_user, login_password)
+			//register_mac(self, mac, profile, token=None, **rest)
+			
+			
+		public function cobblerObject(endpoint:String="http://172.16.1.53", dest:String="/cobbler_api"){
 		
 			super();
 			server = new XMLRPCObject();
-		    if (endpoint){
+			
+		    if (endpoint){ //http://ip or hostname:port
 				server.endpoint = endpoint;
 		    }
               // Set the destination if any  "/webservice/service.cgi"
             if (dest) {
               	server.destination = dest;
             }
+            
+            // if connection is good, start fetching data
+            
+            this.getdistros();
+            this.getprofiles();
+            this.getsystems();
               
 		 }
-		
+			
+		   
 		   public function set endpoint(endp:String):void{
 		       this.server.endpoint = endp;
 		       
@@ -51,40 +79,59 @@ package com.lmc.utils
 		       this.server.destination = dest;
 		       
 		   }
-		   
+		   private function getnewtoken():void{
+           	//Token times out after 30 minutes
+           	this.server.login(this.username, this.password).addResponder(new ItemResponder(getnewtokenResult, faultHandler));;
+
+           }
 		   public function getsystems():void{
-		   	    
-		   	    server.getsystems().addResponder(new ItemResponder(systemsResult, faultHandler));
-		   	    
+		     // We want to reformat the array and only get selected fields from the array
+        		this.server.get_systems().addResponder(new ItemResponder(getSystemsResult, faultHandler));
+		   }
+		   public function getdistros():void{
+		   		this.server.get_distros().addResponder(new ItemResponder(getdistrosResult, faultHandler));
+		   }
+		   public function getprofiles():void{
+		   		this.server.get_profiles().addResponder(new ItemResponder(getprofilesResult, faultHandler));
+		   }
+           public function togglenetboot(value:Boolean, sid:String):void{
+           		if (value){
+           			server.modify_system(sid, 'netboot-enabled', true, token);
+           			server.save_system(sid, token);
+           		}	
+           		else{
+           			this.server.disable_netboot(sid, this.token);
+           		}
            }
-           
-		   public function getusers():void{
-		   	    
-		   	    server.listusers().addResponder(new ItemResponder(userResult, faultHandler));
-		   		
-           }
-           public function getprofiles():void{
-		   	    
-		   	    server.getprofiles().addResponder(new ItemResponder(profileResult, faultHandler));
-		   		
+		   
+           public function addsystem(name:String,mac:String, hostname:String, profile:String):void{
+             var sid:String = server.new_system(token);
+             server.modify_system(sid, 'name', name, token);
+             server.modify_system(sid, 'hostname', name + '.localdomain', token);
+             server.modify_system(sid, 'profile', profile, token);
+             server.modify_system(sid, 'modify-interface', {'macaddress-eth0': mac},token);
+             server.save_system(sid,token);
+          		
            }
           
-		   
-           public function addsystem(systemname:String,macaddr:String, profileobj:Object, user:String, reset:String):void{
-          		// the profileobj contains a number of items (profile, template, os, osfamily)
-          		this.systemname = systemname;
-          		this.macaddr = macaddr;
-          		//this.profile = profile;
-          		
-          		server.addsystem(systemname,macaddr, profileobj, user, reset).addResponder(new ItemResponder(addSystemResult, faultHandler));
-          		
+           public function installos(sid:String, profile:String):void{
+              server.modify_system(sid, 'profile', profile, token);
+              server.save_system(sid,token);
            }
-           
            
            //////////////// Result Events ////////////////////////////////////////
-           
-          
-           	   		
+           private function getSystemsResult(event:ResultEvent, token:AsyncToken = null) : void {
+             this.systemData = new ArrayCollection(ArrayUtil.toArray(event.result));
+           }
+           private function getdistrosResult(event:ResultEvent, token:AsyncToken = null) : void {
+             this.distroData = new ArrayCollection(ArrayUtil.toArray(event.result));
+           }
+           private function getprofilesResult(event:ResultEvent, token:AsyncToken = null) : void {
+             this.profileData = new ArrayCollection(ArrayUtil.toArray(event.result));
+           }
+           private function getnewtokenResult(event:ResultEvent, token:AsyncToken = null) : void {
+             this.token = event.result.toString();
+           }	   		
            private function userResult(event:ResultEvent, token:AsyncToken = null) : void {
            		
            	     userData = new ArrayCollection( ArrayUtil.toArray(event.result)  );
@@ -93,17 +140,7 @@ package com.lmc.utils
            		 userData.sort = sortvar;
            		 userData.refresh();
            }	   			
-           private function systemsResult(event:ResultEvent, token:AsyncToken = null) : void {	   	
-           	     systemData = new ArrayCollection( ArrayUtil.toArray(event.result)  );
-           	   	
-           }
            
-           private function profileResult(event : ResultEvent, token : AsyncToken = null) : void {
-              // comes back pre sorted and if cobbler has enabled=false, those items will not be available
-              this.profiles = new ArrayCollection(ArrayUtil.toArray( event.result ) );
-              
-              
-           }
            private function addSystemResult(event:ResultEvent, token : AsyncToken = null) : void {
            		var register:String = new String(event.result.toString());
            		// If result is true, then it was successful
@@ -124,5 +161,12 @@ package com.lmc.utils
             Alert.show(event.fault.faultString, event.fault.faultCode);
            } 
 		
+
+    
+    
+    
+
+    
+
 }
 }

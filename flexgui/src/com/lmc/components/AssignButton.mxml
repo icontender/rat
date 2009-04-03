@@ -1,58 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml" creationComplete="init()" label="Assign OS" 
+<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml"  label="Install OS" 
 	height="20" width="100" click="clickEvent()">
 	<mx:Script>
 		<![CDATA[
 			import mx.events.FlexEvent;
-			import com.racemi.qa.events.*;
-			private var slotid:String;
-			private var slotname:String;
-			private var resStatus:String;
-			private var instance:String;
+			import com.lmc.events.*;
+			
+			private var systemname:String;
 			private var tempBGColor:Number;
 			private var macaddr:String;
 			private var user:String;
 			
-			
-			
-			
-			private function init():void{
-		
-  
-  		    }
-     
-         
 			 // Override the set method for the data property. 
-         override public function set data(value:Object):void { 
+        	 override public function set data(value:Object):void { 
              super.data = value; 
              // Since the item renderer can be recycled,  
              // set the initial background color. 
              
-            
-         
              if (value != null) 
              { 
-                 slotid = value.slotid;
-                 slotname = value.name;
-                 resStatus = value.assigned;
-                 instance = value.instance;
+                 
+                 systemname = value.name;
               	 macaddr = value.macaddr;
-              	 user = value.user;
+              	 
              } 
-  
-            
-  
-           // Dispatch the dataChange event
+  			  // Dispatch the dataChange event
 				dispatchEvent(new FlexEvent(FlexEvent.DATA_CHANGE));
          } 
 				
 			private function clickEvent():void{
-				// send true/false to determin which reservation panel to popup
-				dispatchEvent(new AssignOSEvent(this.slotname,this.macaddr, this.slotid, this.user));
+			
+				dispatchEvent(new AssignOSEvent(this.systemname,this.macaddr));
 				
 			}
-		
-			
 			
 		]]>
 	</mx:Script>

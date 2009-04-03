@@ -29,51 +29,25 @@
              
              
            [Bindable] private var dp:cobblerObject;
-           [Bindable] private var sysmodel:ArrayCollection = new ArrayCollection();
-           
+          
            public function set dataProvider(data:cobblerObject):void{
            		dp = data;
-           		createsysmodel();
-           		this.maingrid.dataProvider = sysmodel;
+                this.maingrid.dataProvider = dp.profileData;
            		dp.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
+           		
            }
            
            	  
            public function init():void{	  
 			  
-              this.addEventListener(AssignOSEvent.ASSIGNOS, assignProfileHandler);
-              
-              
-              
            }
            private function detectChange(evt:PropertyChangeEvent):void{
-           		// make sure the search field is not blank
-           		createsysmodel();
+           		// need to make sure the search field is not blank
            		if (this.filterTxt.text != ""){
            			this.filtercontent();
            		}
-           		// Lets just get the important data out of the array
-           		
            }
-           private function createsysmodel():void{
-           	sysmodel = new ArrayCollection();
-           	
-           	for each (var s in dp.systemData){
-           		sysmodel.addItem({name:s.name, mac:s.interfaces.eth0.mac_address})
-           	}
-           	
-           }
-           private function assignProfileHandler(e:AssignOSEvent):void{
-           		var ospanel:Object;
-           		ospanel = PopUpManager.createPopUp(this,AssignOSPanel, true);
-           		ospanel.macaddr = e.macaddr;
-           		ospanel.dataProvider = this.dp;
-           		ospanel.systemname = e.systemname;	
-           		
-
-           		PopUpManager.centerPopUp(ospanel as IFlexDisplayObject); 
-           		
-           }
+           
            
            private function doubleClickHandler(event:ListEvent):void {
 				mx.controls.Alert.show("Column1 is: " + event.itemRenderer.data.name);
@@ -85,7 +59,7 @@
 			{
 				var content:String = filterTxt.text
 				// If we concatenate all the fields we want to search we can search them all at once
-				var key:String = item.name
+				var key:String = item.name + " " + item.arch + " " + item.user;
 				
 				// maybe convert all strings to lowercase first
 				key = key.toLowerCase();
@@ -99,17 +73,19 @@
 					return false;
 			}
 	
+			///if the textbox is empty, it then calls back all of the data. I actually use a 'reset' button to do this as well.
+
 			private function filtercontent():void
 			{
 				if (filterTxt.text.length == 0)
 				{
-					dp.systemData.filterFunction = null
+					dp.distroData.filterFunction = null
 				}
 				else
 				{
-					dp.systemData.filterFunction = filterColumn;
+					dp.distroData.filterFunction = filterColumn;
 				}
-				dp.systemData.refresh()
+				dp.distroData.refresh()
 			}
 			
 			
@@ -117,7 +93,7 @@
 	  </mx:Script>
 	         <mx:Label x="15" y="5" text="Search" width="86" fontSize="12" fontWeight="bold"/>
 			<mx:TextInput id="filterTxt" width="238" toolTip="Search by Name"  x="76" y="3" change="filtercontent()" text=""/>
-			<lmc:SystemsView width="95%" height="95%"  liveScrolling="true" mouseEnabled="true"
+			<lmc:profileView width="95%" height="95%" liveScrolling="true" mouseEnabled="true"
 	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);"
 	  			horizontalGridLines="true" creationComplete="init()" x="14.5" y="30" id="maingrid" />
 				

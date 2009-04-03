@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml"  >
+			 
+			  <mx:columns>
+			  
+			     <mx:DataGridColumn headerText="Name" dataField="name" width="130" textAlign="left" />
+			     <mx:DataGridColumn headerText="Breed" dataField="breed" textAlign="left" width="70" />
+			     <mx:DataGridColumn headerText="arch" textAlign="left" width="100" dataField="arch" />
+			      <mx:DataGridColumn headerText="comment" textAlign="left" width="100" dataField="comment" />
+			       <mx:DataGridColumn headerText="Version" textAlign="left" width="100" dataField="os_version" />
+			  
+			  </mx:columns>
+</mx:DataGrid>
+			 

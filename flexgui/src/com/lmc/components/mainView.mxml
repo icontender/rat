@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TabNavigator xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" 
+	xmlns:lmc="com.lmc.components.*" height="100%" borderStyle="inset">
+	  <mx:Script>
+       <![CDATA[
+        import com.lmc.utils.cobblerObject;
+       	import mx.controls.ComboBox;
+       	  import mx.controls.Alert;
+           import com.lmc.utils.*;
+           import com.lmc.components.*;
+           import com.lmc.events.*;
+           import mx.controls.*;
+           import mx.collections.ArrayCollection;
+           
+      	   [Bindable] public var dp:cobblerObject; 
+          
+           private function init(): void {
+             dp = new cobblerObject();
+             cobsystems.dataProvider = dp;
+             cobprofiles.dataProvider = dp;
+           	 cobdistros.dataProvider = dp;
+             
+           }
+           public function set dataProvider(data:cobblerObject):void{
+           		//this.dp = data;
+           		//cobsystems.dataProvider = dp;
+           		//cobprofiles.dataProvider = dp;
+           		//cobdistros.dataProvider = dp;
+           }
+           
+       ]]>
+   </mx:Script>
+		<lmc:SystemsModel id="cobsystems" label="Systems" 
+			width="100%" height="100%" backgroundColor="#FFFFFF"  />
+		<lmc:DistroModel id="cobdistros" label="Distros" 
+			width="100%" height="100%" backgroundColor="#FFFFFF"  />
+			
+		<lmc:profileModel id="cobprofiles" label="Profiles" 
+			width="100%" height="100%" backgroundColor="#FFFFFF"  />
+		
+	
+</mx:TabNavigator>

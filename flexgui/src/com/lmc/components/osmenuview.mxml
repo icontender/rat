@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" width="460" height="158"  >
+	<mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+		    import mx.events.ListEvent;
+		    import mx.controls.Alert;
+		    import mx.utils.ObjectUtil;
+		    import com.lmc.utils.*;
+		    [Bindable] private var profiles:ArrayCollection = new ArrayCollection();
+		    [Bindable] private var distros:ArrayCollection = new ArrayCollection();
+		    [Bindable] private var dp:ostree;
+		    
+		    public function get selectedItem():String{
+		    	if (dgprofile.selectedIndex != -1){
+		    		return dgprofile.selectedItem.name;
+		    	}
+		    	else
+		    		return "";
+		    }
+		    public function set dataProvider(data:ostree):void{
+		    	this.dp = data;
+		    }
+		    public function changebreed():void{
+		    	
+		    	this.distros.removeAll();
+		    	this.distros = this.dp.getdistros(dgbreed.selectedItem.name as String);
+		    }
+		    public function changedistro():void{
+		    	this.profiles.removeAll();
+		    	
+		    	this.profiles = this.dp.getprofiles(dgdistros.selectedItem.name as String);
+		    }
+		]]>
+	</mx:Script>
+	<mx:HBox height="100%" width="100%"  horizontalGap="0">
+		
+	
+	<mx:DataGrid id="dgbreed" width="17%" height="100%" textAlign="left" change="changebreed();" dataProvider="{this.dp.breeds}">
+		<mx:columns>
+			<mx:DataGridColumn headerText="Breed" dataField="name" />
+			
+		</mx:columns>
+	</mx:DataGrid>
+	
+	<mx:DataGrid  id="dgdistros"  width="38%" height="100%"  textAlign="left" change="changedistro();" dataProvider="{this.distros}" >
+		<mx:columns>
+			<mx:DataGridColumn headerText="Distro" dataField="name"  />
+			
+		</mx:columns>
+	</mx:DataGrid>
+
+
+	<mx:DataGrid id="dgprofile" width="45%" height="100%" textAlign="left" dataProvider="{this.profiles}" >
+		<mx:columns>
+			<mx:DataGridColumn headerText="Profile" dataField="name"  />
+			
+		</mx:columns>
+	</mx:DataGrid>
+	</mx:HBox>
+</mx:Canvas>
