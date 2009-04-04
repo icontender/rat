@@ -3,6 +3,7 @@
 	<name>ratgui</name>
 	<comment></comment>
 	<projects>
+		<project>as3-rpclib</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
