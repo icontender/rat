@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wc-entries
+   xmlns="svn:">
+<entry
+   committed-rev="540"
+   name=""
+   committed-date="2006-04-13T06:10:33.693119Z"
+   url="http://labs.adobe.com/subversion/flashplatform/projects/corelib/trunk/src/actionscript3/com/adobe/serialization/json"
+   last-author="mchamber@macromedia.com"
+   kind="dir"
+   uuid="8fb42b5b-8f02-0410-9cc2-833e89911dc6"
+   repos="http://labs.adobe.com/subversion/flashplatform"
+   revision="603"/>
+<entry
+   committed-rev="540"
+   name="JSONParseError.as"
+   text-time="2006-07-03T21:43:49.533774Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="5a089c22b2ecaff4c6d84cca9c497ac5"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.223328Z"/>
+<entry
+   committed-rev="540"
+   name="JSONDecoder.as"
+   text-time="2006-07-03T21:43:49.563817Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="63438fe8c6d6cc94c6bb2b274b713e9d"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.223328Z"/>
+<entry
+   name="tests"
+   kind="dir"/>
+<entry
+   committed-rev="540"
+   name="JSONTokenizer.as"
+   text-time="2006-07-03T21:43:49.583846Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="c3c4641e0e2fef048d8f067be11f5d4e"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.393572Z"/>
+<entry
+   committed-rev="540"
+   name="JSON.as"
+   text-time="2006-07-03T21:43:49.774120Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="8d07dfa08f797d9620475571d8031b88"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.493716Z"/>
+<entry
+   committed-rev="540"
+   name="JSONEncoder.as"
+   text-time="2006-07-03T21:43:49.784134Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="c70a7a2c178ed91be8490590387e021f"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.513745Z"/>
+<entry
+   committed-rev="540"
+   name="JSONToken.as"
+   text-time="2006-07-03T21:43:49.784134Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="92bdf57f0e351a2b2ac15b52e57b9587"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.523760Z"/>
+<entry
+   committed-rev="540"
+   name="JSONTokenType.as"
+   text-time="2006-07-03T21:43:49.794148Z"
+   committed-date="2006-04-13T06:10:33.693119Z"
+   checksum="bc5e09ee7cd17c4630742d689be444a0"
+   last-author="mchamber@macromedia.com"
+   kind="file"
+   prop-time="2006-07-03T21:43:49.533774Z"/>
+</wc-entries>

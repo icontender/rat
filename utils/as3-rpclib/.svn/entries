@@ -1,0 +1,85 @@
+8
+
+dir
+28
+http://as3-rpclib.googlecode.com/svn/trunk
+http://as3-rpclib.googlecode.com/svn
+
+
+
+2008-04-17T03:47:36.839635Z
+28
+akeemphilbert
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+5201f8bb-2129-0410-bf6f-eb16a50b8293
+
+.flexLibProperties
+file
+
+
+
+
+2009-01-21T22:57:20.000000Z
+7c29bbadd8f81f93104101523995639d
+2007-02-25T02:25:36.449690Z
+14
+akeemphilbert
+
+license.txt
+file
+
+
+
+
+2009-01-21T22:57:20.000000Z
+f117ec82a9419d06a8a9434651653c7d
+2007-02-24T18:57:01.023397Z
+13
+akeemphilbert
+
+.project
+file
+
+
+
+
+2009-01-21T22:57:20.000000Z
+0eb11f41720fd5cb6bc758c730df65f4
+2007-02-14T12:43:24.393103Z
+4
+akeemphilbert
+
+src
+dir
+
+bin
+dir
+
+.actionScriptProperties
+file
+
+
+
+
+2009-01-21T22:57:20.000000Z
+d82c074b13abc1bdca244b3c98a81f0a
+2007-02-14T12:43:24.393103Z
+4
+akeemphilbert
+
+.settings
+dir
+

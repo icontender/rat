@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/4/trunk/src/asdoc-output/com/ak33m/rpc/xmlrpc
+END
+XMLRPCObject.html
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/!svn/ver/4/trunk/src/asdoc-output/com/ak33m/rpc/xmlrpc/XMLRPCObject.html
+END
+class-list.html
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svn/!svn/ver/4/trunk/src/asdoc-output/com/ak33m/rpc/xmlrpc/class-list.html
+END
+XMLRPCSerializer.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/4/trunk/src/asdoc-output/com/ak33m/rpc/xmlrpc/XMLRPCSerializer.html
+END
+IXMLRPCStruct.html
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svn/!svn/ver/4/trunk/src/asdoc-output/com/ak33m/rpc/xmlrpc/IXMLRPCStruct.html
+END
+XMLRPCConnection.html
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/!svn/ver/4/trunk/src/asdoc-output/com/ak33m/rpc/xmlrpc/XMLRPCConnection.html
+END
+package-detail.html
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svn/!svn/ver/4/trunk/src/asdoc-output/com/ak33m/rpc/xmlrpc/package-detail.html
+END

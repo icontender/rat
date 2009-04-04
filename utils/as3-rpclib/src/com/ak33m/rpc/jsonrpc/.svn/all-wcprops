@@ -1,0 +1,23 @@
+K 25
+svn:wc:ra_dav:version-url
+V 48
+/svn/!svn/ver/18/trunk/src/com/ak33m/rpc/jsonrpc
+END
+JSONRPCObject.as
+K 25
+svn:wc:ra_dav:version-url
+V 65
+/svn/!svn/ver/17/trunk/src/com/ak33m/rpc/jsonrpc/JSONRPCObject.as
+END
+JSONRPCSerializer.as
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/18/trunk/src/com/ak33m/rpc/jsonrpc/JSONRPCSerializer.as
+END
+JSONConnection.as
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/17/trunk/src/com/ak33m/rpc/jsonrpc/JSONConnection.as
+END

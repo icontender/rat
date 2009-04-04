@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flexLibProperties version="1">
+  <includeClasses>
+    <classEntry path="com.adobe.serialization.json.JSON"/>
+    <classEntry path="com.adobe.serialization.json.JSONDecoder"/>
+    <classEntry path="com.adobe.serialization.json.JSONEncoder"/>
+    <classEntry path="com.adobe.serialization.json.JSONParseError"/>
+    <classEntry path="com.adobe.serialization.json.JSONToken"/>
+    <classEntry path="com.adobe.serialization.json.JSONTokenType"/>
+    <classEntry path="com.adobe.serialization.json.JSONTokenizer"/>
+    <classEntry path="com.ak33m.rpc.amf0.AMF0Connection"/>
+    <classEntry path="com.ak33m.rpc.amf0.AMF0Object"/>
+    <classEntry path="com.ak33m.rpc.core.AbstractRPCObject"/>
+    <classEntry path="com.ak33m.rpc.core.IRPCConnection"/>
+    <classEntry path="com.ak33m.rpc.core.IRPCObject"/>
+    <classEntry path="com.ak33m.rpc.core.Method"/>
+    <classEntry path="com.ak33m.rpc.core.RPCEvent"/>
+    <classEntry path="com.ak33m.rpc.core.RPCMessageCodes"/>
+    <classEntry path="com.ak33m.rpc.core.RPCResponder"/>
+    <classEntry path="com.ak33m.rpc.xmlrpc.IXMLRPCStruct"/>
+    <classEntry path="com.ak33m.rpc.xmlrpc.XMLRPCConnection"/>
+    <classEntry path="com.ak33m.rpc.xmlrpc.XMLRPCObject"/>
+    <classEntry path="com.ak33m.rpc.xmlrpc.XMLRPCSerializer"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests>
+    <namespaceManifestEntry namespace="http://ak33m.com/mxml" manifest="manifest.xml"/>
+  </namespaceManifests>
+</flexLibProperties>
