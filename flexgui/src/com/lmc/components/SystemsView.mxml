@@ -20,8 +20,8 @@
 			  
 			  <mx:DataGridColumn headerText="arch" textAlign="left" width="100" dataField="mac_address_eth0" />
 			  <mx:DataGridColumn headerText="Status" dataField="status" width="50" textAlign="center" />
-			  <mx:DataGridColumn headerText="Install OS" width="120"  textAlign="center" 
-			  	itemRenderer="com.lmc.components.AssignButton" />
+			  <mx:DataGridColumn headerText="Deploy OS" width="120"  textAlign="center" 
+			  	itemRenderer="com.lmc.components.deployButton" />
 			  
 			  </mx:columns>
 			

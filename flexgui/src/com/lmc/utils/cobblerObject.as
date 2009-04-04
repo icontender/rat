@@ -86,7 +86,7 @@ package com.lmc.utils
            }
 		   public function getsystems():void{
 		     // We want to reformat the array and only get selected fields from the array
-        		this.server.get_systems().addResponder(new ItemResponder(getSystemsResult, faultHandler));
+        		this.server.get_systems().addResponder(new ItemResponder(getsystemsResult, faultHandler));
 		   }
 		   public function getdistros():void{
 		   		this.server.get_distros().addResponder(new ItemResponder(getdistrosResult, faultHandler));
@@ -120,7 +120,7 @@ package com.lmc.utils
            }
            
            //////////////// Result Events ////////////////////////////////////////
-           private function getSystemsResult(event:ResultEvent, token:AsyncToken = null) : void {
+           private function getsystemsResult(event:ResultEvent, token:AsyncToken = null) : void {
              this.systemData = new ArrayCollection(ArrayUtil.toArray(event.result));
            }
            private function getdistrosResult(event:ResultEvent, token:AsyncToken = null) : void {

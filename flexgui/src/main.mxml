@@ -12,13 +12,15 @@
         import com.lmc.utils.cobblerObject;
        	import mx.controls.ComboBox;
        	  import mx.controls.Alert;
+       	  import mx.events.PropertyChangeEvent;
            import com.lmc.utils.*;
            import com.lmc.components.*;
            import com.lmc.events.*;
            import mx.controls.*;
            import mx.collections.ArrayCollection;
             import mx.managers.CursorManager;
-           
+            import mx.controls.Alert;
+           import mx.binding.utils.BindingUtils;
            
       	   [Bindable] public var dp:cobblerObject; 
            private var ipvalidator:IPAddressValidator = new IPAddressValidator();
@@ -39,17 +41,26 @@
            		dp.getprofiles();
            	
            }
+           private function detectChange(evt:PropertyChangeEvent):void{
+           		BindingUtils.bindSetter(setterfunc, this, "dp");
+           		
+           }
+           private function setterfunc(data:cobblerObject):void{
+           		this.maingui.dataProvider = data;
+           }
+           
            private function connectserver():void{
            	var endpoint:String = 'http://' + txt_server.text;
-           	CursorManager.setBusyCursor();
-           	dp = new cobblerObject(endpoint);
-           	getinfo();
-           //	maingui.dataProvider = dp;
+          	CursorManager.setBusyCursor();
+           	dp = new cobblerObject();
+           	dp.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
            	
            }
            private function loadComplete(event:Event):void{
+           		Alert.show("remove cursor");
            		CursorManager.removeBusyCursor();
-            }    
+           		
+           }    
 
            
        ]]>

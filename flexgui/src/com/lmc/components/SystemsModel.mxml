@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Canvas xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:lmc="com.lmc.components.*" 
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" xmlns:lmc="com.lmc.components.*" 
 	width="100%" height="90%" creationComplete="init()" >
 
 	  
@@ -33,15 +33,16 @@
            
            public function set dataProvider(data:cobblerObject):void{
            		dp = data;
+           		
            		createsysmodel();
-           		this.maingrid.dataProvider = sysmodel;
+           		//this.maingrid.dataProvider = sysmodel;
            		dp.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
            }
            
            	  
            public function init():void{	  
 			  
-              this.addEventListener(AssignOSEvent.ASSIGNOS, assignProfileHandler);
+              this.addEventListener(deployOSEvent.DEPLOYOS, deployHandler);
               
               
               
@@ -63,15 +64,15 @@
            	}
            	
            }
-           private function assignProfileHandler(e:AssignOSEvent):void{
-           		var ospanel:Object;
-           		ospanel = PopUpManager.createPopUp(this,AssignOSPanel, true);
-           		ospanel.macaddr = e.macaddr;
-           		ospanel.dataProvider = this.dp;
-           		ospanel.systemname = e.systemname;	
+           private function deployHandler(e:deployOSEvent):void{
+           		var deploypanel:Object;
+           		deploypanel = PopUpManager.createPopUp(this,deployOSPanel, true);
+           		deploypanel.macaddr = e.macaddr;
+           		deploypanel.dataProvider = this.dp;
+           		deploypanel.systemname = e.systemname;	
            		
 
-           		PopUpManager.centerPopUp(ospanel as IFlexDisplayObject); 
+           		PopUpManager.centerPopUp(deploypanel as IFlexDisplayObject); 
            		
            }
            
@@ -115,13 +116,16 @@
 			
 	  	]]>
 	  </mx:Script>
-	         <mx:Label x="15" y="5" text="Search" width="86" fontSize="12" fontWeight="bold"/>
-			<mx:TextInput id="filterTxt" width="238" toolTip="Search by Name"  x="76" y="3" change="filtercontent()" text=""/>
-			<lmc:SystemsView width="95%" height="95%"  liveScrolling="true" mouseEnabled="true"
-	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);"
+	  <mx:HBox width="30%" height="5%">
+	  		<mx:Label text="Search" width="30%" fontSize="12" fontWeight="bold" />
+			<mx:TextInput id="filterTxt" width="70%" toolTip="Search by Name" change="filtercontent()" text=""/>
+	  </mx:HBox>
+	         
+			<lmc:SystemsView width="100%" height="90%"  liveScrolling="true" mouseEnabled="true"
+	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);" dataProvider="{this.sysmodel}"
 	  			horizontalGridLines="true" creationComplete="init()" x="14.5" y="30" id="maingrid" />
 				
 			
 			 
 			
-</mx:Canvas>
+</mx:VBox>

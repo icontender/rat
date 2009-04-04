@@ -28,11 +28,11 @@
              import mx.utils.ArrayUtil;
              
              
-           [Bindable] private var dp:cobblerObject;
+           [Bindable] public var dp:cobblerObject;
           
            public function set dataProvider(data:cobblerObject):void{
            		dp = data;
-                this.maingrid.dataProvider = dp.profileData;
+                //this.maingrid.dataProvider = dp.profileData;
            		dp.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
            		
            }
@@ -42,6 +42,7 @@
 			  
            }
            private function detectChange(evt:PropertyChangeEvent):void{
+           		
            		// need to make sure the search field is not blank
            		if (this.filterTxt.text != ""){
            			this.filtercontent();
@@ -94,7 +95,7 @@
 	         <mx:Label x="15" y="5" text="Search" width="86" fontSize="12" fontWeight="bold"/>
 			<mx:TextInput id="filterTxt" width="238" toolTip="Search by Name"  x="76" y="3" change="filtercontent()" text=""/>
 			<lmc:profileView width="95%" height="95%" liveScrolling="true" mouseEnabled="true"
-	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);"
+	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);" dataProvider="{dp.profileData}"
 	  			horizontalGridLines="true" creationComplete="init()" x="14.5" y="30" id="maingrid" />
 				
 			

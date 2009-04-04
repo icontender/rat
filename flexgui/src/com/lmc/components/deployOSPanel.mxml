@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="578" height="404" 
-	title="Assign New Operating System" alpha="1.0" 
+	title="Deploy New Operating System" alpha="1.0" 
 	cornerRadius="11" backgroundColor="#FAF7F7" 
 	showCloseButton="true" 
 	
@@ -28,12 +28,12 @@
 		   [Bindable] private var dp:cobblerObject;
 		   public var macaddr:String;
 		   public var systemname:String;
-		   public var slotid:String;
+		   
 		   private var selectedprofile:String;
 		   public var user:String;
 		   
 		   private function init():void{
-		   	this.title = "Assign New Operating System for " + systemname;
+		   	this.title = "Deploy New Operating System for " + systemname;
 		   	 
 		   	 this.sysname_txt.text = systemname;
              
@@ -54,7 +54,7 @@
            		if (event.detail==Alert.YES){
            			selected = osmenumodel.selectedprofile;
            			//dp.addsystem(systemname,macaddr, selected,chk_reset.selected.toString());
-           		    this.dispatchEvent(new AssignOSEvent(this.systemname, this.macaddr,selected['distro']));
+           		    this.dispatchEvent(new deployOSEvent(this.systemname, this.macaddr,selected['distro']));
            			this.close();
            		}
            		
@@ -65,15 +65,15 @@
            		Alert.show("Please select a profile")
            		return;
            	}
-            var txt:String = "Are you sure you want to install " + osmenumodel.selectedprofile + " on " + systemname + "?";
-          	Alert.show(txt,"OS Install Confirmation",Alert.NO|Alert.YES,this,alertCloseHandler);
+            var txt:String = "Are you sure you want to deploy " + osmenumodel.selectedprofile + " on " + systemname + "?";
+          	Alert.show(txt,"Deploy OS Confirmation",Alert.NO|Alert.YES,this,alertCloseHandler);
             
            }
                 
 		]]>
 	</mx:Script>
 	<mx:Button x="214.5" y="284" label="Install OS" width="105" click="this.onInstallClick()"/>
-	<mx:Label x="187.5" y="81" text="Choose OS to install" width="148" fontSize="12" fontWeight="bold"/>
+	<mx:Label x="187.5" y="81" text="Choose OS to deploy" width="148" fontSize="12" fontWeight="bold"/>
 	<mx:Label x="10" y="31" text="System Name" width="128" fontSize="12" fontWeight="bold"/>
 	
 	<mx:TextInput x="146" y="31" width="273"/>

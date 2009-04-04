@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml"  label="Install OS" 
+<mx:Button xmlns:mx="http://www.adobe.com/2006/mxml"  label="Deploy" 
 	height="20" width="100" click="clickEvent()">
 	<mx:Script>
 		<![CDATA[
@@ -30,7 +30,7 @@
 				
 			private function clickEvent():void{
 			
-				dispatchEvent(new AssignOSEvent(this.systemname,this.macaddr));
+				dispatchEvent(new deployOSEvent(this.systemname,this.macaddr));
 				
 			}
 			

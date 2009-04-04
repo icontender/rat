@@ -13,11 +13,11 @@
 		    import mx.controls.Alert;
 		    import mx.utils.ObjectUtil;
 		    import mx.events.PropertyChangeEvent;
-			[Bindable] private var datap:cobblerObject;
+			[Bindable] private var dp:cobblerObject;
 			[Bindable] private var osmenutree:ostree = new ostree();
 			
 			public function set dataProvider(data:cobblerObject):void{
-				this.datap = data;
+				this.dp = data;
 				createtree();
 				
 			}
@@ -25,7 +25,7 @@
 				return osmenu.selectedItem;
 			}
 			private function init():void{
-				datap.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
+				dp.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
 				createtree();
 			}
 			private function detectChange(evt:PropertyChangeEvent):void{
@@ -43,10 +43,10 @@
 				var version:String; 
 				var profile:String; 
 				var comment:String;
-				for each (var p in this.datap.profileData){
+				for each (var p in this.dp.profileData){
 					distro = p.distro;
 					profile = p.name;
-					for each (var d in this.datap.distroData){
+					for each (var d in this.dp.distroData){
 						if (d.name == distro){
 							breed = d.breed;
 			 				arch = d.arch;

@@ -1,9 +1,9 @@
 package com.lmc.events {
     import flash.events.Event;
     
-    public class AssignOSEvent extends Event {
-        public static const ASSIGNOS:String =
-            "Assign OS";
+    public class deployOSEvent extends Event {
+        public static const DEPLOYOS:String =
+            "Deploy OS";
 
        
       
@@ -11,8 +11,8 @@ package com.lmc.events {
         public var macaddr:String;
         public var profile:String;
         
-        public function AssignOSEvent(systemname:String, mac:String,profile:String=null) {
-            super(ASSIGNOS,true);
+        public function deployOSEvent(systemname:String, mac:String,profile:String=null) {
+            super(DEPLOYOS,true);
            
             this.profile = profile;
             this.systemname = systemname;

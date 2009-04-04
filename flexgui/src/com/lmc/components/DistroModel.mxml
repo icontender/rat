@@ -23,27 +23,25 @@
              import com.lmc.events.*;
              import mx.controls.*;
              import flash.events.*;
-         
+             import mx.binding.utils.BindingUtils;
              import mx.collections.ArrayCollection;
              import mx.utils.ArrayUtil;
              
              
-           [Bindable] private var dp:cobblerObject;
+           [Bindable] public var dp:cobblerObject;
           
            public function set dataProvider(data:cobblerObject):void{
            		dp = data;
-           		this.maingrid.dataProvider = data.distroData;
+           		//this.maingrid.dataProvider = data.distroData;
            		dp.addEventListener(PropertyChangeEvent.PROPERTY_CHANGE, detectChange);
            		
            }
+            
+          
            
            	  
            public function init():void{	  
 			  
-              
-              
-              
-              
            }
            private function detectChange(evt:PropertyChangeEvent):void{
            		// need to make sure the search field is not blank
@@ -98,8 +96,8 @@
 	         <mx:Label x="15" y="5" text="Search" width="86" fontSize="12" fontWeight="bold"/>
 			<mx:TextInput id="filterTxt" width="238" toolTip="Search by Name"  x="76" y="3" change="filtercontent()" text=""/>
 			<lmc:DistroView width="95%" height="95%" liveScrolling="true" mouseEnabled="true"
-	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);"
-	  			horizontalGridLines="true" creationComplete="init()" x="14.5" y="30" id="maingrid" />
+	 			itemDoubleClick="doubleClickHandler(event);" initialize="gridInit(event);" dataProvider="{dp.distroData}"
+	  			horizontalGridLines="true" creationComplete="init()" x="14.5" y="30" id="maingrid"  />
 				
 			
 			 

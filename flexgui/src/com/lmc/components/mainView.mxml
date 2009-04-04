@@ -10,19 +10,17 @@
            import com.lmc.components.*;
            import com.lmc.events.*;
            import mx.controls.*;
+           import mx.binding.utils.BindingUtils;
            import mx.collections.ArrayCollection;
            
       	   [Bindable] public var dp:cobblerObject; 
           
            private function init(): void {
-             dp = new cobblerObject();
-             cobsystems.dataProvider = dp;
-             cobprofiles.dataProvider = dp;
-           	 cobdistros.dataProvider = dp;
+             
              
            }
            public function set dataProvider(data:cobblerObject):void{
-           		//this.dp = data;
+           		this.dp = data;
            		//cobsystems.dataProvider = dp;
            		//cobprofiles.dataProvider = dp;
            		//cobdistros.dataProvider = dp;
@@ -31,11 +29,11 @@
        ]]>
    </mx:Script>
 		<lmc:SystemsModel id="cobsystems" label="Systems" 
-			width="100%" height="100%" backgroundColor="#FFFFFF"  />
+			width="100%" height="100%" dataProvider="{dp}"  />
 		<lmc:DistroModel id="cobdistros" label="Distros" 
-			width="100%" height="100%" backgroundColor="#FFFFFF"  />
+			width="100%" height="100%" dataProvider="{dp}" backgroundColor="#FFFFFF"  />
 			
-		<lmc:profileModel id="cobprofiles" label="Profiles" 
+		<lmc:profileModel id="cobprofiles" label="Profiles" dataProvider="{dp}" 
 			width="100%" height="100%" backgroundColor="#FFFFFF"  />
 		
 	
