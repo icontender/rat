@@ -1,27 +1,24 @@
-package com.racemi.qa.events {
+package com.lmc.events {
     import flash.events.Event;
     
     public class AssignOSEvent extends Event {
         public static const ASSIGNOS:String =
             "Assign OS";
 
-        public var slotid:String;
-        public var resStatus:String;
-        public var instance:String;
-        public var template:String;
-        public var slotname:String;
+       
+      
+        public var systemname:String;
         public var macaddr:String;
         public var profile:String;
-        public var user:String;
-
-        public function AssignOSEvent(Slotname:String, mac:String, slot:String, user:String, profile:String=null) {
+        
+        public function AssignOSEvent(systemname:String, mac:String,profile:String=null) {
             super(ASSIGNOS,true);
            
             this.profile = profile;
-            this.slotname = Slotname;
-            this.slotid = slot;
+            this.systemname = systemname;
+            
             this.macaddr = mac;
-            this.user = user;
+            
             
             
             

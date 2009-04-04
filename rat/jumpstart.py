@@ -1,4 +1,4 @@
-#!/opt/race/bin/python
+#!/usr/bin/python
 # Author: Corey Osman
 # Date: 3-19-2009
 
@@ -8,7 +8,7 @@ import xmlrpclib
 
 class jumpstartmgr:
     # Jumpstart Server Information
-    jumpsuri = 'http://192.168.32.53:25251'
+    jumpsuri = 'http://localhost:25251'
     server = None
     
     # Sparc System Registry

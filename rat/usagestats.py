@@ -1,7 +1,7 @@
 #!/opt/race/bin/python
 # Author: Corey Osman
 # Date: 3-19-2009
-from __future__ import with_statement
+
 import time
 import os
 
@@ -16,7 +16,7 @@ class usagestats (object):
     monthly = []
     yearly = []
    # statsfile = "rattstats.py"
-    statsfile = "/var/www/html/rattwebservice/scripts/rattstats.py"
+    statsfile = "rattstats.py"
     def __init__(self):
         self._readstats() 
     def _readstats(self):
@@ -95,11 +95,17 @@ class usagestats (object):
         This method takes no arguments and writes the lists currently in memory to file.  In the future it should 
         write to a DB
         '''
-        with open(self.statsfile, 'w') as f:
-            f.write('daily = %s\n\n' % (self.daily))
-            f.write('weekly = %s\n\n' % (self.weekly))
-            f.write('monthly = %s\n\n' % (self.monthly))
-            f.write('yearly = %s\n\n' % (self.yearly))
+        try:
+            try:
+                f = open(self.statsfile, 'w')
+                f.write('daily = %s\n\n' % (self.daily))
+                f.write('weekly = %s\n\n' % (self.weekly))
+                f.write('monthly = %s\n\n' % (self.monthly))
+                f.write('yearly = %s\n\n' % (self.yearly))
+            except:
+                print "Could not open rattstats file"
+        finally:
+            f.close
         
         return
     def _totals(self, statobj, stats, type):

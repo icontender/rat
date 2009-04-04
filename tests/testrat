@@ -14,9 +14,5 @@ hostname = '172.16.1.53'
 # this uri may change when I get a static IP from john
 uri = 'http://%s:9000' % (hostname)
 remote = xmlrpclib.Server(uri)
-#remote.addclient(mac,profile, hostname , arch)
-#print "Put the system in the WindowsDS vlan and reboot the system"
-#print "If solaris cannot find your hardware, you will need to add a driver"
-#print "Please see Corey for more information"
 print remote.listusers()
 print remote.listsystems()

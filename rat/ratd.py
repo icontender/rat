@@ -1,4 +1,4 @@
-#!/opt/race/bin/python
+#!/usr/bin/python
 # Author: Corey Osman
 # Date: 1-21-2009
 # Purpose: xmlrpc web interface for cobbler and dynacenter
@@ -6,7 +6,7 @@
 # Todo:
 # 1. Check to make sure all the xmlrpc services were loaded
 
-from __future__ import with_statement
+
 from SimpleXMLRPCServer import SimpleXMLRPCServer
 import subprocess
 import os
@@ -24,15 +24,18 @@ vmuser = ''
 vmpass = ''
 
 #####################################    
-class ratd:
+class ratweb:
     cobbler = cobblermgr()
     
-
-    jumps = jumpstartmgr()
+    # Disable to leave solaris stuff out
+    jumpstartenabled = False;
+    if jumpstartenabled:
+        jumps = jumpstartmgr()
+    
     profiles = []
     livestats = usagestats()
 
-    SCRIPTS = '/var/www/html/rattwebservice/scripts'
+    SCRIPTS = '/opt/lmc/rat'
     
     def getstatistics(self, type='daily', user='all'):
         return self.livestats.getstats(type, user)
@@ -42,7 +45,7 @@ class ratd:
     def getprofiles(self,format='flex'):
        
         cprofiles = self.cobbler.getprofiles()
-        jprofiles = self.jumps.getprofiles()
+        #jprofiles = self.jumps.getprofiles()
         profiles = []
         # In order for the gui to work properely I need to compile 
         # a complete list of all the OSs supported
@@ -51,9 +54,9 @@ class ratd:
         if format is 'flex':
             for c in cprofiles:
                 profiles.append(c)
-           
-            for j in jprofiles:
-                profiles.append(j)
+            if self.jumpstartenabled:
+                for j in jprofiles:
+                    profiles.append(j)
         
         if type is 'other':
             # future support for some other format
@@ -71,7 +74,7 @@ class ratd:
         distro = profileobj.get('distro');
         ostype = profileobj.get('ostype');
         
-                                
+                             
         # this is for solaris installs
         if ostype.lower().find('solaris') != -1:
             # Set the vlan for vmware
@@ -128,9 +131,20 @@ class ratd:
         # strip out all the newlines
         ignore_exec_globals = {}
         command_info = []
-        with open(self.SCRIPTS + '/commands/' + cmdfile, 'r') as f:
-            str = f.read()
-            str = str.replace('\n','')
+        try:
+            try:
+                f = open(self.SCRIPTS + '/commands/' + cmdfile, 'r')
+                str = f.read()
+                str = str.replace('\n','')
+           
+            except IOError:
+                print "Error reading commands file"
+
+        finally:
+            if f:
+                f.close()
+       
+           
             command_info = eval(str)
 
         return command_info 
@@ -142,15 +156,13 @@ class ratd:
 
    
 
-    def listtemplates(self, ):
-        # return list of systems from cobbler
-
-        return temp_list
+    def listsystems(self):
+        return self.cobbler.getsystems()
 
     def listusers(self):
         # return list of users from users
 
-        return userlist
+        return ['cosman']
     
 
    
@@ -162,8 +174,8 @@ class ratd:
 
 # Web Service Functions below
 
-server = SimpleXMLRPCServer(('127.0.0.1', 9000))
-server.register_instance(dynaweb())
+server = SimpleXMLRPCServer(('172.16.1.53', 9000))
+server.register_instance(ratweb())
 print 'Listening on port 9000'
 #cacheData()
 server.serve_forever()

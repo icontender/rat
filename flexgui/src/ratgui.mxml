@@ -9,7 +9,7 @@
    
    <mx:Script>
        <![CDATA[
-        import com.lmc.utils.ratXMLRPCObject;
+        import com.lmc.utils.cobblerObject;
        	import mx.controls.ComboBox;
        	  import mx.controls.Alert;
            import com.lmc.utils.*;
@@ -17,46 +17,55 @@
            import com.lmc.events.*;
            import mx.controls.*;
            import mx.collections.ArrayCollection;
+            import mx.managers.CursorManager;
            
-           // Assign the task runner tasks to this array, update
            
-           [Bindable] private var taskhistory:ArrayCollection;
-      	   [Bindable] public var ratweb:ratXMLRPCObject = new ratXMLRPCObject();
-           
+      	   [Bindable] public var dp:cobblerObject; 
+           private var ipvalidator:IPAddressValidator = new IPAddressValidator();
            
            private function init(): void {
-              // Need to add listener for reservation event
-              
-             
-              //this.testplan.setService(ratweb);
-             // this.dynasystems.setService(ratweb); 
+           	
+             ipvalidator.required = true;
+             ipvalidator.property = "text";
+             ipvalidator.source = txt_server;
+             ipvalidator.trigger = connect_but;
+             ipvalidator.triggerEvent = "click";
              
            }
           
            private function getinfo():void{
-           		ratweb.getslots();
+           		dp.getsystems();
+           		dp.getdistros();
+           		dp.getprofiles();
            	
            }
-              
+           private function connectserver():void{
+           	var endpoint:String = 'http://' + txt_server.text;
+           	CursorManager.setBusyCursor();
+           	dp = new cobblerObject(endpoint);
+           	getinfo();
+           //	maingui.dataProvider = dp;
+           	
+           }
+           private function loadComplete(event:Event):void{
+           		CursorManager.removeBusyCursor();
+            }    
+
+           
        ]]>
        
    </mx:Script>
 
-   
-   	
-   
-	<mx:TabNavigator id="tabnav" x="0" y="23" width="100%" height="90%" borderStyle="inset">
-		
-		<lmc:SystemsDataGrid id="dynasystems" label="Reservations" 
-			width="100%" height="100%" click="tabnav.validateNow();"  backgroundColor="#FFFFFF"/>
-		
-		
-		<lmc:reportmodel label="Reports" width="100%" height="100%" 
-			enabled="true" dataProvider="{ratweb}" click="tabnav.validateNow();"  backgroundColor="#FFFFFF"/>
-			
-		
-		
-	</mx:TabNavigator>
-   
+	<mx:VBox width="100%" height="100%">
+		<mx:HBox horizontalAlign="left">
+			<mx:Label  text="Cobbler Server"  fontWeight="bold"/>
+			<mx:TextInput  id="txt_server" text="172.16.1.53"/>
+			<mx:Button  label="Connect" id="connect_but" click="connectserver();"/>
+		</mx:HBox>
+		<lmc:mainView id="maingui" height="100%" width="90%" horizontalAlign="left"   />
+	</mx:VBox>
+	
+	
+	
 
 </mx:Application>

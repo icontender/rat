@@ -1,7 +1,7 @@
-#!/opt/race/bin/python
+#!/usr/bin/python
 # Author: Corey Osman
 # Date: 3-19-2009
-# Purpose: cobbler xmlrpc web interface for RATT
+# Purpose: cobbler xmlrpc web interface for RAT
 
 
 
@@ -9,10 +9,10 @@ import os
 import xmlrpclib
 class cobblermgr (object):
     # Cobbler Server Information
-    uri = 'http://192.168.32.50/cobbler_api_rw'
+    uri = 'http://172.16.1.53/cobbler_api'
     server = None
     testuser = 'admin'
-    testpass = 'dynacenter'
+    testpass = 'password'
     token = ''
     distros = {}
     profiles = {}
@@ -28,6 +28,10 @@ class cobblermgr (object):
             return err
         
         return True
+
+    def getsystems(self):
+        # We might want to reformat the array and only get specific items from the array
+        return self.server.get_systems();
     def getprofiles(self):
         
         # need to format the profiles
@@ -107,7 +111,7 @@ class cobblermgr (object):
             
              sid = self.server.new_system(self.token)
              self.server.modify_system(sid, 'name', name, self.token)
-             self.server.modify_system(sid, 'hostname', name + '.racemi.com', self.token)
+             self.server.modify_system(sid, 'hostname', name + '.localdomain', self.token)
              self.server.modify_system(sid, 'profile', profile, self.token)
              self.server.modify_system(sid, 'modify-interface', {'macaddress-eth0': mac},self.token)
              code = self.server.save_system(sid,self.token)
